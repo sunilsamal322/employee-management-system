@@ -16,20 +16,10 @@ public class EmployeeDetailsService implements UserDetailsService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    private String email;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Employee employee =employeeRepository.findByEmail(username.toLowerCase()).orElseThrow(()->new EmailNotFoundException("Invalid email address"));
-        email=username;
         return employee;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
