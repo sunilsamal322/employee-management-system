@@ -40,12 +40,11 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getEmployeeById(@PathVariable Integer id)
     {
-        Employee employee =employeeRepository.findByEmail(getLoginUserEmail()).orElseThrow(()->new EmailNotFoundException("Employee not found with "+getLoginUserEmail()));
-        if(employee.getId()==id)
+        if(getLoginUser().getId()==id)
         {
             return new ResponseEntity<>(employeeServices.getEmployeeById(id),HttpStatus.OK);
         }
-        else if(employee.getRole().getName().equals("ROLE_ADMIN"))
+        else if(getLoginUser().getRole().getName().equals("ROLE_ADMIN"))
         {
             return new ResponseEntity<>(employeeServices.getEmployeeById(id),HttpStatus.OK);
         }
@@ -69,12 +68,11 @@ public class EmployeeController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEmployee(@PathVariable Integer id,@Valid @RequestBody EmployeeDto employeeDto)
     {
-        Employee employee =employeeRepository.findByEmail(getLoginUserEmail()).orElseThrow(()->new EmailNotFoundException("Employee not found with "+getLoginUserEmail()));
-        if(employee.getId()==id)
+        if(getLoginUser().getId()==id)
         {
             return new ResponseEntity<>(employeeServices.updateEmployee(id,employeeDto),HttpStatus.OK);
         }
-        else if (employee.getRole().getName().equals("ROLE_ADMIN"))
+        else if (getLoginUser().getRole().getName().equals("ROLE_ADMIN"))
         {
             return new ResponseEntity<>(employeeServices.updateEmployee(id,employeeDto),HttpStatus.OK);
         }
@@ -99,9 +97,9 @@ public class EmployeeController {
         return new ResponseEntity<>(new ApiResponse("Employee deleted successfully",String.valueOf(HttpStatus.OK), Instant.now()),HttpStatus.OK);
     }
 
-    public String getLoginUserEmail()
+    public Employee getLoginUser()
     {
-        Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ((Employee) principal).getEmail();
+        Employee employee= (Employee) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return employee;
     }
 }
