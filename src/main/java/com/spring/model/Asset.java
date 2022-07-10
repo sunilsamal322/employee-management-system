@@ -16,7 +16,7 @@ import java.util.Date;
 public class Asset {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private Date assetAddedTime;

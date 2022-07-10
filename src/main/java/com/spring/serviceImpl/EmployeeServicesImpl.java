@@ -55,33 +55,6 @@ public class EmployeeServicesImpl implements EmployeeServices {
         employee.setRole(role);
         return modelMapper.map(employeeRepository.save(employee),EmployeeDto.class);
     }
-    @Override
-    public EmployeeDto saveAdminEmployee(EmployeeDto employeeDto, Integer organizationId) {
-        Organization organization =organizationRepository.findById(organizationId).orElseThrow(()->new ResourceNotFoundException("organization","id",organizationId));
-        if(employeeDto.getSecretAdminCode()==null)
-        {
-            throw new AdminCodeMismatchException("Admin secret code required for registration");
-        }
-        if(!employeeDto.getSecretAdminCode().equals(AppConstants.SECRET_CODE))
-        {
-            throw new AdminCodeMismatchException("sorry code didn't match, u can't register as admin");
-        }
-        if(employeeRepository.findByEmail(employeeDto.getEmail()).isPresent())
-        {
-            throw new EmailAlreadyExistException("Email already exist");
-        }
-        Employee employee=modelMapper.map(employeeDto,Employee.class);
-        employee.setOrganization(organization);
-        employee.setEmail(employee.getEmail().toLowerCase());
-        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
-
-        Role role=new Role();
-        role.setId(AppConstants.ADMIN_USER);
-        role.setName("ROLE_ADMIN");
-        roleRepository.save(role);
-        employee.setRole(role);
-        return modelMapper.map(employeeRepository.save(employee),EmployeeDto.class);
-    }
 
 
     @Override
@@ -157,5 +130,26 @@ public class EmployeeServicesImpl implements EmployeeServices {
         Role role=roleRepository.findById(roleId).orElseThrow(()->new ResourceNotFoundException("role","id",roleId));
         List<Employee> employeeList=employeeRepository.findByRole(role);
         return employeeList.stream().map((employee)->modelMapper.map(employee,EmployeeDto.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public EmployeeDto saveSuperAdmin(EmployeeDto employeeDto) {
+        if(employeeDto.getSuperAdminCode()==null || employeeDto.getSuperAdminCode().equals(""))
+        {
+            throw new AdminCodeMismatchException("Code required for super admin registration");
+        }
+        if(!employeeDto.getSuperAdminCode().equals(AppConstants.SUPER_ADMIN_CODE))
+        {
+            throw new AdminCodeMismatchException("Code didn't match,Enter a valid code");
+        }
+        Employee employee=modelMapper.map(employeeDto,Employee.class);
+        employee.setEmail(employeeDto.getEmail().toLowerCase());
+        employee.setPassword(passwordEncoder.encode(employeeDto.getPassword()));
+        Role role=new Role();
+        role.setId(AppConstants.SUPER_ADMIN_USER);
+        role.setName("ROLE_SUPER_ADMIN");
+        roleRepository.save(role);
+        employee.setRole(role);
+        return modelMapper.map(employeeRepository.save(employee),EmployeeDto.class);
     }
 }

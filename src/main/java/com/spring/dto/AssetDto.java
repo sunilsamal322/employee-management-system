@@ -20,5 +20,5 @@ public class AssetDto {
     @NotBlank
     private String name;
     private Date assetAddedTime;
-    private OrganizationDto organizationDto;
+    private OrganizationDto organization;
 }

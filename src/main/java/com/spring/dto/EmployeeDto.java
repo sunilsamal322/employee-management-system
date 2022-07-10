@@ -1,5 +1,6 @@
 package com.spring.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,7 +36,8 @@ public class EmployeeDto {
     private String designation;
     @NotNull
     private Integer salary;
-    private RoleDto roleDto;
-    private OrganizationDto organizationDto;
-    private String secretAdminCode;
+    private RoleDto role;
+    private OrganizationDto organization;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String superAdminCode;
 }

@@ -1,7 +1,6 @@
 package com.spring.security;
 
 import com.spring.exception.EmailNotFoundException;
-import com.spring.exception.ResourceNotFoundException;
 import com.spring.model.Employee;
 import com.spring.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
