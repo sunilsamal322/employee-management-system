@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.*;
 
@@ -27,7 +28,7 @@ public class EmployeeDto {
     @Email(message = "Invalid email address")
     private String email;
     @NotBlank
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!&#%]).{6,15}$",message = "password should must must contain digit,lower case alphabet,uppercase alphabet and at least one special character(@,$,!,&), and password length should be 6-15 characters")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!#%]).{6,15}$",message = "password should must must contain digit,lower case alphabet,uppercase alphabet,at least one special character(@,$,!,#,%), and password length should be 6-15 characters")
     private String password;
     @NotBlank
     @Pattern(regexp = ("^$|[0-9]{10}"),message = "Invalid phone number")
@@ -35,6 +36,7 @@ public class EmployeeDto {
     @NotBlank
     private String designation;
     @NotNull
+    @Range(min = 5000,max = 200000,message = "Salary should be from 5000-200000")
     private Integer salary;
     private RoleDto role;
     private OrganizationDto organization;

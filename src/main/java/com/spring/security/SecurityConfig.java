@@ -29,7 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/employees/").hasAnyRole("ADMIN","SUPER_ADMIN")
                 .antMatchers("/employees/role/**").hasAnyRole("ADMIN","SUPER_ADMIN")
                 .antMatchers(HttpMethod.DELETE,"/employees/**").hasAnyRole("ADMIN","SUPER_ADMIN")
-                .antMatchers("/assets/**").hasAnyRole("ADMIN","SUPER_ADMIN")
+                .antMatchers(HttpMethod.POST,"/assets/**").hasAnyRole("ADMIN","SUPER_ADMIN")
+                .antMatchers(HttpMethod.PUT,"/assets/**").hasAnyRole("ADMIN","SUPER_ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/assets/**").hasAnyRole("ADMIN","SUPER_ADMIN")
                 .anyRequest().authenticated().and().httpBasic().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
