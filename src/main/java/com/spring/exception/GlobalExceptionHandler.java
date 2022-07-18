@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
             String message= error.getDefaultMessage();
             response.put(fieldName,message);
         });
-        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response,HttpStatus.NOT_ACCEPTABLE);
     }
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiResponse> handleNotReadableException(MethodArgumentTypeMismatchException exception)
@@ -50,11 +50,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmailNotFoundException.class)
     public ResponseEntity<ApiResponse> handleUserNotAvailableException(EmailNotFoundException exception)
     {
-        return new ResponseEntity<>(new ApiResponse(exception.getMessage(),String.valueOf(HttpStatus.BAD_REQUEST),Instant.now()),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ApiResponse(exception.getMessage(),String.valueOf(HttpStatus.NOT_FOUND),Instant.now()),HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(RoleNotAvailableException.class)
     public ResponseEntity<ApiResponse> handleRoleNotAvailableException(RoleNotAvailableException exception)
     {
-        return new ResponseEntity<>(new ApiResponse(exception.getMessage(),String.valueOf(HttpStatus.BAD_REQUEST),Instant.now()),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ApiResponse(exception.getMessage(),String.valueOf(HttpStatus.NOT_FOUND),Instant.now()),HttpStatus.NOT_FOUND);
     }
 }

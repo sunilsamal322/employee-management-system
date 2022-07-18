@@ -53,6 +53,7 @@ public class EmployeeController {
             return new ResponseEntity<>(new ApiResponse("Unauthorized,Access denied,You can't view other employee details",String.valueOf(HttpStatus.UNAUTHORIZED),Instant.now()),HttpStatus.UNAUTHORIZED);
         }
     }
+
     @GetMapping("/")
     public ResponseEntity<List<EmployeeDto>> getAllEmployees()
     {

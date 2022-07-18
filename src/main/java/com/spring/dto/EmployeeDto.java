@@ -36,7 +36,7 @@ public class EmployeeDto {
     @NotBlank
     private String designation;
     @NotNull
-    @Range(min = 5000,max = 200000,message = "Salary should be from 5000-200000")
+    @Range(min = 5000,max = 200000,message = "Salary range should be from 5000-200000")
     private Integer salary;
     private RoleDto role;
     private OrganizationDto organization;
